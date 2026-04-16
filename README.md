@@ -16,6 +16,14 @@ export AMG_MCP_URL="https://<your-grafana-endpoint>/api/azure-mcp"
 export AMG_MCP_TOKEN="<your-service-account-token>"
 ```
 
+## Uninstall
+
+```
+/plugin uninstall amg-toolkit@ops-skills
+```
+
+Add `--keep-data` to preserve saved configuration and reports.
+
 ## Prerequisites
 
 - An **Azure Managed Grafana** instance with the [MCP server enabled](https://learn.microsoft.com/en-us/azure/managed-grafana/grafana-mcp-server)
