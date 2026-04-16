@@ -4,13 +4,11 @@ description: Monthly Azure subscription cost analysis — lists all accessible s
 argument-hint: "[subscription-id-1,subscription-id-2,...] (optional, comma-separated)"
 disable-model-invocation: true
 effort: max
-allowed-tools: mcp__amg__amgmcp_cost_analysis mcp__amg__amgmcp_query_azure_subscriptions mcp__amg__amgmcp_datasource_list Bash(node *) Bash(sleep *) Glob Read Write Edit
+allowed-tools: mcp__amg__amgmcp_cost_analysis mcp__amg__amgmcp_query_azure_subscriptions mcp__amg__amgmcp_datasource_list Bash(sleep *) Glob Read Write Edit
 ---
 
 ## Runtime Context
 - Current UTC time: !`date -u +%Y-%m-%dT%H:%M:%SZ`
-- Last billing month start: !`node -e "const d=new Date();d.setUTCMonth(d.getUTCMonth()-1,1);d.setUTCHours(0,0,0,0);console.log(d.toISOString())"`
-- Last billing month end: !`node -e "const d=new Date();d.setUTCDate(1);d.setUTCHours(0,0,0,0);console.log(d.toISOString())"`
 - Config: !`cat memory/amg-check-azure-spend/config.md 2>/dev/null || echo "NOT_CONFIGURED"`
 - Arguments: subscription-ids=$ARGUMENTS
 
@@ -47,9 +45,9 @@ Update checkboxes as you complete each phase:
 
 ## Time Range
 
-Always use the **last full billing month** boundaries pre-computed in the Runtime Context above:
-- **startTime**: the "Last billing month start" value
-- **endTime**: the "Last billing month end" value
+Always use the **last full billing month** boundaries. Compute them from the "Current UTC time" in the Runtime Context above:
+- **startTime**: first day of the *previous* month at `00:00:00.000Z` (e.g., if current UTC time is `2026-04-16T...`, startTime = `2026-03-01T00:00:00.000Z`)
+- **endTime**: first day of the *current* month at `00:00:00.000Z` (e.g., if current UTC time is `2026-04-16T...`, endTime = `2026-04-01T00:00:00.000Z`)
 
 Do NOT use relative expressions like `now-30d` — billing months have variable lengths.
 

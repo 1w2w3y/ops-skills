@@ -9,7 +9,7 @@ Recovery procedures for common failures during the health check workflow.
 | `BadRequest: can not support requested time grain` | Use `PT1H` as safe default. DataUsage/IndexUsage/DocumentCount do NOT support P1D |
 | `timespan` parameter error | Use separate `from` and `to` parameters, not `timespan` |
 | MCP response >500 KB | Reduce batch size (fewer accounts per call) or shorten time window. Use `FULL` interval for overview metrics (ProvisionedThroughput, AutoscaleMaxThroughput) |
-| Result too large for context window | Save to temp file, parse with `node -e "..."` — do NOT use Python |
+| Result too large for context window | Save to temp file, then parse with whichever interpreter is installed — `node -e "..."`, `python -c "..."`, `jq`, or `pwsh -Command "..."`. Approve the Bash prompt on first use. |
 | Empty `timeSeries` | Mark as N/A, not an error (expected for AutoscaleMaxThroughput on manual accounts, ReplicationLatency on non-replicated accounts) |
 | MCP tool timeout | Note the failure in the report, continue with remaining accounts |
 | Zero accounts from Resource Graph | Report "No Cosmos DB for MongoDB (RU) accounts found" and stop |

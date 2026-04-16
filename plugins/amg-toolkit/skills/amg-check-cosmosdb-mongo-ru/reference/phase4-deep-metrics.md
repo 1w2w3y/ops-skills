@@ -10,7 +10,7 @@ Fleet-wide metric queries at PT1H x 7 days x 30 accounts will exceed the 500 KB 
 - **Fleet overview metrics** (ProvisionedThroughput, AutoscaleMaxThroughput): Use `FULL` interval or a 1-day window — only the current value matters. These produce small responses even for 30 accounts.
 - **Time-series metrics** (NormalizedRU, Availability, Latency): Split into batches of **10-15 accounts per call**, or reduce the time window to 2-3 days.
 - **If a response exceeds 500 KB**: The MCP server returns an error. Retry with fewer accounts or a shorter time window. Do NOT retry with the same parameters.
-- **If a response is too large for context**: Save to a temp file and parse with Node.js (`node -e "..."`) — do NOT use Python.
+- **If a response is too large for context**: Save to a temp file and parse outside the context window. Prefer `node -e "..."` if installed; otherwise fall back to `python -c "..."`, `jq`, or `pwsh -Command "..."`.
 
 ## Fleet-Wide Triage (when >50% accounts flagged)
 

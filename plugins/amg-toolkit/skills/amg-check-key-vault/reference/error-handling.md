@@ -14,6 +14,6 @@ Recovery procedures for common failures during the health check workflow.
 | Subagent MCP permission denied | Do NOT retry with subagents — MCP tools are unavailable to subagents. Query directly from main context |
 | `timespan` parameter error | Use separate `from` and `to` parameters, not `timespan` |
 | Resource logs unavailable | Diagnostic settings may not be configured — note and skip logs for that vault |
-| Result too large for context window | Save to temp file, parse with `node -e "..."` — do NOT use Python |
+| Result too large for context window | Save to temp file, then parse with whichever interpreter is installed — `node -e "..."`, `python -c "..."`, `jq`, or `pwsh -Command "..."`. Approve the Bash prompt on first use. |
 | Config file missing at runtime | The `!` pre-computation will show `NOT_CONFIGURED` — run First-Run Setup before proceeding |
 | Multiple Azure Monitor datasources | Prefer `uid == "azure-monitor-oob"`; if none has that UID, ask the user to choose |

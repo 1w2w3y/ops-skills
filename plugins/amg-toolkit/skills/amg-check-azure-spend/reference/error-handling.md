@@ -12,6 +12,6 @@ Recovery procedures for common failures during the cost analysis workflow.
 | MCP tool timeout | Note the failure, wait 1 minute, continue with next subscription |
 | Zero subscriptions from listing | Report "No accessible subscriptions found" and stop |
 | Subscription ID from arguments not found in list | Warn the user, skip the invalid ID, continue with valid ones |
-| Result too large for context window | Save to temp file, parse with `node -e "..."` — do NOT use Python |
+| Result too large for context window | Save to temp file, then parse with whichever interpreter is installed — `node -e "..."`, `python -c "..."`, `jq`, or `pwsh -Command "..."`. You'll be prompted to approve the `Bash(...)` call the first time. |
 | Config file missing at runtime | The `!` pre-computation will show `NOT_CONFIGURED` — run First-Run Setup before proceeding |
 | Multiple Azure Monitor datasources | Prefer `uid == "azure-monitor-oob"`; if none has that UID, ask the user to choose |

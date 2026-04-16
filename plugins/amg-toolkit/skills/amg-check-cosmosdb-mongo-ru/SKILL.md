@@ -24,7 +24,7 @@ allowed-tools: mcp__amg__amgmcp_pulse_check mcp__amg__amgmcp_query_resource_grap
 - **Time format**: ISO 8601 UTC with explicit `from`/`to` — NEVER use `timespan` (it causes errors).
 - **Safe interval**: Always use `PT1H` — it works for all Cosmos DB metrics. `PT6H` is NOT supported. `DataUsage`, `IndexUsage`, and `DocumentCount` do NOT support `P1D`.
 - **Parallelism cap**: 30 concurrent MCP calls per batch. Reduce to 4-5 if rate-limited.
-- **Result too large**: Save to temp file, parse with Node.js (`node -e "..."`) — do NOT use Python.
+- **Result too large**: Save to temp file and parse outside the context window. Prefer `node -e "..."` if installed; otherwise fall back to `python -c "..."`, `jq`, or `pwsh -Command "..."`. Bash permission for the chosen interpreter will be prompted on first use.
 
 ## Progress Tracking
 
