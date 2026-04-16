@@ -1,11 +1,18 @@
-# AMG Toolkit
+# AMG skills
 
 Claude Code plugin for [Azure Managed Grafana](https://learn.microsoft.com/en-us/azure/managed-grafana/) — health checks, cost analysis, and diagnostics for Azure resources via the built-in AMG-MCP server.
 
 ## Install
 
+Add the marketplace:
+
 ```
 /plugin marketplace add 1w2w3y/ops-skills
+```
+
+Install the plugin:
+
+```
 /plugin install amg-toolkit@ops-skills
 ```
 
@@ -13,7 +20,30 @@ Then set environment variables:
 
 ```bash
 export AMG_MCP_URL="https://<your-grafana-endpoint>/api/azure-mcp"
+```
+
+```bash
 export AMG_MCP_TOKEN="<your-service-account-token>"
+```
+
+## Update
+
+When a new version of the plugin is released, refresh the marketplace metadata:
+
+```
+/plugin marketplace update ops-skills
+```
+
+Then re-run install to pull the new version:
+
+```
+/plugin install amg-toolkit@ops-skills
+```
+
+Updates are manual — Claude Code does not auto-poll the marketplace. Claude Code detects updates by comparing the `version` field in `marketplace.json`; if the plugin maintainer bumped the version, the install command pulls the new release. You can verify the currently installed version with:
+
+```
+/plugin list
 ```
 
 ## Uninstall
