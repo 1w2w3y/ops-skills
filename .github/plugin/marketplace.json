@@ -1,23 +1,19 @@
 {
   "name": "ops-skills",
+  "metadata": {
+    "description": "Azure Managed Grafana skills \u2014 health checks, cost analysis, and diagnostics via AMG-MCP",
+    "version": "1.0.2",
+    "pluginRoot": ".github/plugins"
+  },
   "owner": {
     "name": "AMG Skills"
   },
   "plugins": [
     {
       "name": "amg-toolkit",
-      "source": "./plugins/amg-toolkit",
+      "source": "amg-toolkit",
       "description": "Azure Managed Grafana skills \u2014 health checks, cost analysis, and diagnostics for Azure resources via AMG-MCP",
-      "version": "1.0.2",
-      "keywords": [
-        "azure",
-        "grafana",
-        "health-check",
-        "cost-analysis",
-        "diagnostics",
-        "monitoring"
-      ],
-      "category": "azure"
+      "version": "1.0.2"
     }
   ]
 }

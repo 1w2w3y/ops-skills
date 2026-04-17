@@ -1,64 +1,13 @@
 # AMG skills
 
-Claude Code plugin for [Azure Managed Grafana](https://learn.microsoft.com/en-us/azure/managed-grafana/) — health checks, cost analysis, and diagnostics for Azure resources via the built-in AMG-MCP server.
-
-## Install
-
-Add the marketplace:
-
-```
-/plugin marketplace add 1w2w3y/ops-skills
-```
-
-Install the plugin:
-
-```
-/plugin install amg-toolkit@ops-skills
-```
-
-Then set environment variables:
-
-```bash
-export AMG_MCP_URL="https://<your-grafana-endpoint>/api/azure-mcp"
-```
-
-```bash
-export AMG_MCP_TOKEN="<your-service-account-token>"
-```
-
-## Update
-
-When a new version of the plugin is released, refresh the marketplace metadata:
-
-```
-/plugin marketplace update ops-skills
-```
-
-Then re-run install to pull the new version:
-
-```
-/plugin install amg-toolkit@ops-skills
-```
-
-Updates are manual — Claude Code does not auto-poll the marketplace. Claude Code detects updates by comparing the `version` field in `marketplace.json`; if the plugin maintainer bumped the version, the install command pulls the new release. You can verify the currently installed version with:
-
-```
-/plugin list
-```
-
-## Uninstall
-
-```
-/plugin uninstall amg-toolkit@ops-skills
-```
-
-Add `--keep-data` to preserve saved configuration and reports.
+Agent plugin for [Azure Managed Grafana](https://learn.microsoft.com/en-us/azure/managed-grafana/) — health checks, cost analysis, and diagnostics for Azure resources via the built-in AMG-MCP server. Ships in two formats from one repo: **Claude Code** and **GitHub Copilot** (VS Code + CLI).
 
 ## Prerequisites
 
 - An **Azure Managed Grafana** instance with the [MCP server enabled](https://learn.microsoft.com/en-us/azure/managed-grafana/grafana-mcp-server)
-- A Grafana service account token or Entra ID token
-- [Claude Code](https://claude.ai/code)
+- One of the supported clients below (Claude Code, VS Code with GitHub Copilot, or GitHub Copilot CLI)
+
+Your Grafana MCP endpoint: `https://<your-grafana-endpoint>/api/azure-mcp`
 
 ## Available Skills
 
@@ -69,6 +18,119 @@ Add `--keep-data` to preserve saved configuration and reports.
 | Storage Account | `/amg-check-storage-account 7d` | Health check for Azure Storage Accounts |
 | Key Vault | `/amg-check-key-vault 7d` | Health check for Azure Key Vaults |
 | Azure Spend | `/amg-check-azure-spend` | Monthly cost analysis for Azure subscriptions |
+
+---
+
+## Claude Code
+
+Bearer-token auth. Requires a [Grafana service account token](https://learn.microsoft.com/en-us/azure/managed-grafana/how-to-service-accounts) or Entra ID token.
+
+### Install
+
+Set the env vars first:
+
+```bash
+export AMG_MCP_URL="https://<your-grafana-endpoint>/api/azure-mcp"
+export AMG_MCP_TOKEN="<your-service-account-token>"
+```
+
+Then add the marketplace and install the plugin:
+
+```
+/plugin marketplace add 1w2w3y/ops-skills
+/plugin install amg-toolkit@ops-skills
+```
+
+### Update
+
+```
+/plugin marketplace update ops-skills
+/plugin install amg-toolkit@ops-skills
+```
+
+Updates are manual — Claude Code detects them by comparing the `version` field in `marketplace.json` against the installed version. Verify the installed version with:
+
+```
+/plugin list
+```
+
+### Uninstall
+
+```
+/plugin uninstall amg-toolkit@ops-skills
+```
+
+Add `--keep-data` to preserve saved configuration and reports.
+
+---
+
+## GitHub Copilot in VS Code
+
+OAuth auto-login. No token required — VS Code opens a browser for you to sign in to the AMG-MCP server once on first use; the session is cached thereafter.
+
+### Install
+
+Set the endpoint (URL only — no token):
+
+```bash
+export AMG_MCP_URL="https://<your-grafana-endpoint>/api/azure-mcp"
+```
+
+Then open VS Code, launch the **Chat Customizations** editor, go to **Marketplace**, search for `amg-toolkit`, and click **Install**. VS Code will prompt you to sign in to AMG-MCP on first skill invocation.
+
+Alternatively, run the Copilot CLI commands (see below) from the VS Code integrated terminal.
+
+### Update
+
+In the Chat Customizations editor, open the installed plugins list and click **Update** next to `amg-toolkit`. Or use the Copilot CLI `update` commands from a terminal.
+
+### Uninstall
+
+In the Chat Customizations editor, open the installed plugins list and click **Uninstall**. Or use the Copilot CLI `uninstall` command from a terminal.
+
+---
+
+## GitHub Copilot CLI
+
+OAuth auto-login. No token required — `copilot` opens a browser for you to sign in to the AMG-MCP server once on first use.
+
+### Install
+
+Set the endpoint (URL only — no token):
+
+```bash
+export AMG_MCP_URL="https://<your-grafana-endpoint>/api/azure-mcp"
+```
+
+Then:
+
+```
+copilot plugin marketplace add 1w2w3y/ops-skills
+copilot plugin install amg-toolkit@ops-skills
+```
+
+> **Known issue**: [github/copilot-cli#2709](https://github.com/github/copilot-cli/issues/2709) can prevent the plugin's `.mcp.json` from being auto-merged into `~/.copilot/mcp-config.json`. If `/mcp show amg` returns nothing after install, add the `amg` server manually via `/mcp add` (supply the URL only; skip the auth header).
+
+### Update
+
+```
+copilot plugin marketplace update ops-skills
+copilot plugin install amg-toolkit@ops-skills
+```
+
+Updates are manual — Copilot detects them by comparing the `version` field in `marketplace.json` against the installed version. Verify the installed version with:
+
+```
+copilot plugin list
+```
+
+### Uninstall
+
+```
+copilot plugin uninstall amg-toolkit@ops-skills
+```
+
+---
 
 ## How It Works
 
@@ -81,13 +143,6 @@ Each skill queries Azure resources through the AMG-MCP (Model Context Protocol) 
 5. **Report** — findings with known issue cross-reference
 
 On first run, each skill auto-discovers the Azure Monitor datasource UID and prompts for the subscription ID(s) to scan. Configuration is saved to `memory/<skill-name>/config.md`.
-
-## Environment Variables
-
-| Variable | Description |
-|---|---|
-| `AMG_MCP_URL` | Your Grafana MCP endpoint (e.g., `https://my-grafana.wcus.grafana.azure.com/api/azure-mcp`) |
-| `AMG_MCP_TOKEN` | Bearer token for authentication |
 
 ## License
 
