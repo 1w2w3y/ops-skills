@@ -109,7 +109,42 @@ copilot plugin marketplace add 1w2w3y/ops-skills
 copilot plugin install amg-toolkit@ops-skills
 ```
 
-> **Known issue**: [github/copilot-cli#2709](https://github.com/github/copilot-cli/issues/2709) can prevent the plugin's `.mcp.json` from being auto-merged into `~/.copilot/mcp-config.json`. If `/mcp show amg` returns nothing after install, add the `amg` server manually via `/mcp add` (supply the URL only; skip the auth header).
+> **Known issue**: [github/copilot-cli#2709](https://github.com/github/copilot-cli/issues/2709) can prevent the plugin's `.mcp.json` from being auto-merged into `~/.copilot/mcp-config.json`. If `/mcp show amg` returns nothing after install, register the server manually using one of these two fallbacks.
+>
+> **Fallback A — interactive `/mcp add`** (inside a `copilot` session):
+>
+> ```
+> /mcp add
+> ```
+>
+> Fill in the prompts:
+>
+> | Prompt | Value |
+> |---|---|
+> | Server Name | `amg` |
+> | Server Type | `HTTP` |
+> | URL | `https://<your-grafana-endpoint>/api/azure-mcp` |
+> | HTTP Headers | *(leave empty — OAuth handles auth)* |
+> | Tools | `*` *(or press Enter for all)* |
+>
+> Press `Ctrl+S` to save.
+>
+> **Fallback B — edit `~/.copilot/mcp-config.json` directly**:
+>
+> ```json
+> {
+>   "mcpServers": {
+>     "amg": {
+>       "type": "http",
+>       "url": "https://<your-grafana-endpoint>/api/azure-mcp",
+>       "headers": {},
+>       "tools": ["*"]
+>     }
+>   }
+> }
+> ```
+>
+> Verify with `/mcp show amg` afterward.
 
 ### Update
 

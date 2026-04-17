@@ -8,7 +8,7 @@
       "name": "amg-toolkit",
       "source": "./plugins/amg-toolkit",
       "description": "Azure Managed Grafana skills \u2014 health checks, cost analysis, and diagnostics for Azure resources via AMG-MCP",
-      "version": "1.0.2",
+      "version": "1.0.5",
       "keywords": [
         "azure",
         "grafana",

@@ -2,7 +2,7 @@
   "name": "ops-skills",
   "metadata": {
     "description": "Azure Managed Grafana skills \u2014 health checks, cost analysis, and diagnostics via AMG-MCP",
-    "version": "1.0.2",
+    "version": "1.0.5",
     "pluginRoot": ".github/plugins"
   },
   "owner": {
@@ -13,7 +13,7 @@
       "name": "amg-toolkit",
       "source": "amg-toolkit",
       "description": "Azure Managed Grafana skills \u2014 health checks, cost analysis, and diagnostics for Azure resources via AMG-MCP",
-      "version": "1.0.2"
+      "version": "1.0.5"
     }
   ]
 }
